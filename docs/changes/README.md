@@ -84,3 +84,4 @@ automatically after each change.
 | 070 | 2026-10-21 | `d53f83f` | [Reset PIN was a fake - a correct OTP now actually changes the PIN](2026-10-21-070-real-reset-pin.md) |
 | 071 | 2026-10-21 | `d53f83f` | [Reset testing needed a real SMS in the app - added a debug-only Mock / Live switch](2026-10-21-071-in-app-mock-live-reset.md) |
 | 072 | 2026-10-21 | `ea059a2` | [Mock testing still needed SMS - registration and reset now skip OTP in debug](2026-10-21-072-mock-skips-otp.md) |
+| 073 | 2026-11-11 | — | [Security and privacy review turned into a production readiness checklist](2026-11-11-073-production-readiness-checklist.md) |
