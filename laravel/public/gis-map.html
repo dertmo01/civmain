@@ -238,7 +238,7 @@
             marker.on('click', function() {
                 showDetail(r);
             });
-            marker.bindTooltip(concern, {
+            marker.bindTooltip(Utils.esc(concern), {
                 permanent: false,
                 direction: 'top',
                 offset: [0, -20]
@@ -280,7 +280,7 @@
         function fmtDate(str) {
             if (!str) return '-';
             var d = new Date(str);
-            if (isNaN(d)) return str;
+            if (isNaN(d)) return Utils.esc(str);
             return d.toLocaleDateString('en-PH', {
                     month: 'short',
                     day: 'numeric',
@@ -321,21 +321,21 @@
                     '-';
                 var photo = r.imageUrl || r.photo_url || null;
                 var imgHtml = photo ?
-                    '<img style="width:36px;height:30px;object-fit:cover;border-radius:4px;" src="' + photo + '" onerror="this.style.display=\'none\'" />' :
+                    '<img style="width:36px;height:30px;object-fit:cover;border-radius:4px;" src="' + Utils.safeUrl(photo) + '" onerror="this.style.display=\'none\'" />' :
                     '<span class="material-symbols-outlined" style="font-size:20px;color:var(--gray-300)">image</span>';
                 var safeRef = String(r.id);
 
-                return '<tr style="cursor:pointer" onclick="showDetailById(\'' + safeRef + '\')">' +
-                    '<td><span class="ref-id">' + ref + '</span></td>' +
+                return '<tr style="cursor:pointer" onclick="showDetailById(' + Utils.jsArg(safeRef) + ')">' +
+                    '<td><span class="ref-id">' + Utils.esc(ref) + '</span></td>' +
                     '<td><div style="display:flex;align-items:center;gap:8px;">' +
                     imgHtml +
-                    '<span style="font-size:13px;font-weight:600;color:var(--gray-800)">' + concern + '</span>' +
+                    '<span style="font-size:13px;font-weight:600;color:var(--gray-800)">' + Utils.esc(concern) + '</span>' +
                     '</div></td>' +
-                    '<td>' + (r.barangay || '-') + '</td>' +
+                    '<td>' + Utils.esc(r.barangay || '-') + '</td>' +
                     '<td>' + Utils.statusBadge(r.status) + '</td>' +
-                    '<td style="font-size:12px;color:var(--gray-600)">' + office + '</td>' +
+                    '<td style="font-size:12px;color:var(--gray-600)">' + Utils.esc(office) + '</td>' +
                     '<td style="font-size:12px">' + fmtDate(r.submittedAt || r.created_at) + '</td>' +
-                    '<td><button class="btn-icon" onclick="event.stopPropagation();showDetailById(\'' + safeRef + '\')">' +
+                    '<td><button class="btn-icon" onclick="event.stopPropagation();showDetailById(' + Utils.jsArg(safeRef) + ')">' +
                     '<span class="material-symbols-outlined">visibility</span>' +
                     '</button></td>' +
                     '</tr>';
@@ -365,25 +365,25 @@
             if (lat && lng) map.setView([lat, lng], 15);
 
             var imgHtml = photo ?
-                '<img class="map-detail-photo" src="' + photo + '" alt="' + concern + '" onerror="this.style.display=\'none\'" />' :
+                '<img class="map-detail-photo" src="' + Utils.safeUrl(photo) + '" alt="' + Utils.esc(concern) + '" onerror="this.style.display=\'none\'" />' :
                 '';
 
             document.getElementById('detailContent').innerHTML =
                 '<div class="map-detail-body">' +
                 imgHtml +
                 '<div>' + Utils.categoryBadge(cat) + '</div>' +
-                '<div class="map-detail-issue">' + concern + '</div>' +
+                '<div class="map-detail-issue">' + Utils.esc(concern) + '</div>' +
                 '<div class="map-detail-info">' +
-                '<div class="map-detail-row"><span class="map-detail-key">Barangay</span><span class="map-detail-val">' + (r.barangay || '-') + '</span></div>' +
+                '<div class="map-detail-row"><span class="map-detail-key">Barangay</span><span class="map-detail-val">' + Utils.esc(r.barangay || '-') + '</span></div>' +
                 '<div class="map-detail-row"><span class="map-detail-key">Status</span><span class="map-detail-val">' + Utils.statusBadge(r.status) + '</span></div>' +
-                '<div class="map-detail-row"><span class="map-detail-key">Assigned Office</span><span class="map-detail-val">' + office + '</span></div>' +
+                '<div class="map-detail-row"><span class="map-detail-key">Assigned Office</span><span class="map-detail-val">' + Utils.esc(office) + '</span></div>' +
                 '<div class="map-detail-row"><span class="map-detail-key">Submitted</span><span class="map-detail-val">' + fmtDate(r.submittedAt || r.created_at).replace('<br>', '&nbsp;') + '</span></div>' +
-                '<div class="map-detail-row"><span class="map-detail-key">Report ID</span><span class="map-detail-val"><span class="ref-id">' + ref + '</span></span></div>' +
+                '<div class="map-detail-row"><span class="map-detail-key">Report ID</span><span class="map-detail-val"><span class="ref-id">' + Utils.esc(ref) + '</span></span></div>' +
                 '</div>' +
-                (r.description ? '<div style="margin-top:12px"><div style="font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:4px">Description</div><div class="map-detail-desc">' + r.description + '</div></div>' : '') +
+                (r.description ? '<div style="margin-top:12px"><div style="font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:4px">Description</div><div class="map-detail-desc">' + Utils.esc(r.description) + '</div></div>' : '') +
                 '</div>' +
                 '<div class="map-detail-footer">' +
-                '<a href="report-details.html?id=' + r.id + '" class="btn btn-primary btn-full">' +
+                '<a href="report-details.html?id=' + encodeURIComponent(r.id) + '" class="btn btn-primary btn-full">' +
                 'View Full Report <span class="material-symbols-outlined">arrow_forward</span>' +
                 '</a>' +
                 '</div>';

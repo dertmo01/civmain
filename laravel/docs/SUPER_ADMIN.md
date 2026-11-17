@@ -149,8 +149,8 @@ Test accounts:
 
 | Email | Password | Role |
 |---|---|---|
-| `admin@civilwatch.ph` | `Admin@2026!` | `super_admin` |
-| `ceo@civilwatch.ph` | `Ceo@2026!` | `ceo` |
+| `admin@civilwatch.ph` | `<your-admin-password>` | `super_admin` |
+| `ceo@civilwatch.ph` | `<your-ceo-password>` | `ceo` |
 
 ---
 
@@ -211,7 +211,7 @@ php artisan route:list --json | python3 -c \
 
 # live gate check — ceo writes must 403, reads must 200
 TOK=$(curl -s -X POST 127.0.0.1:8000/api/login -H 'Content-Type: application/json' \
-  -d '{"email":"ceo@civilwatch.ph","password":"Ceo@2026!"}' \
+  -d '{"email":"ceo@civilwatch.ph","password":"<your-ceo-password>"}' \
   | python3 -c "import sys,json;print(json.load(sys.stdin)['data']['token'])")
 curl -s -o /dev/null -w '%{http_code}\n' -H "Authorization: Bearer $TOK" \
   127.0.0.1:8000/api/admin/citizen-reports                 # 200

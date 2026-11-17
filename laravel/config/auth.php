@@ -44,6 +44,15 @@ return [
             'provider' => 'users',
         ],
 
+        // Staff guard — used by `auth:sanctum` on the admin/office API.
+        // It MUST name the users provider: without this entry Sanctum runs
+        // with provider = null and accepts a token from ANY tokenable model,
+        // so a citizen's mobile token would authenticate on staff routes.
+        'sanctum' => [
+            'driver'   => 'sanctum',
+            'provider' => 'users',
+        ],
+
         // Citizen guard — used by the Flutter mobile app via Sanctum tokens
         'citizen' => [
             'driver'   => 'sanctum',

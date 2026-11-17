@@ -240,7 +240,7 @@
                     '';
                 const photo = r.imageUrl || r.photo_url;
                 const photoCell = photo ?
-                    `<img class="table-photo" src="${photo}" alt="${r.issue || r.concern}"
+                    `<img class="table-photo" src="${Utils.safeUrl(photo)}" alt="${Utils.esc(r.issue || r.concern)}"
                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
                             style="display:block"/>
                        <div class="table-photo-placeholder" style="display:none">
@@ -251,32 +251,32 @@
                        </div>`;
 
                 return `
-                <tr data-report-id="${r.id}">
-                  <td><span class="ref-id">${r.referenceNumber || r.reference_number || '—'}</span></td>
+                <tr data-report-id="${Utils.esc(r.id)}">
+                  <td><span class="ref-id">${Utils.esc(r.referenceNumber || r.reference_number || '—')}</span></td>
                   <td>${photoCell}</td>
                   <td>
                     <div class="table-issue">
-                      <span class="table-issue-name">${r.issue || r.concern || '—'}</span>
-                      <span class="table-issue-desc">${(r.description || '').substring(0, 70)}${(r.description || '').length > 70 ? '…' : ''}</span>
+                      <span class="table-issue-name">${Utils.esc(r.issue || r.concern || '—')}</span>
+                      <span class="table-issue-desc">${Utils.esc((r.description || '').substring(0, 70))}${(r.description || '').length > 70 ? '…' : ''}</span>
                     </div>
                   </td>
                   <td>${Utils.categoryBadge(r.category)}</td>
-                  <td>${r.barangay || '—'}</td>
+                  <td>${Utils.esc(r.barangay || '—')}</td>
                   <td>
                     <div class="submitter-cell">
                       <div class="submitter-avatar"><span class="material-symbols-outlined">person</span></div>
                       <div class="submitter-info">
-                        <span class="submitter-name">${name}</span>
-                        <span class="submitter-phone">${phone}</span>
+                        <span class="submitter-name">${Utils.esc(name)}</span>
+                        <span class="submitter-phone">${Utils.esc(phone)}</span>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <div style="font-size:13px;color:var(--gray-700)">${date}</div>
-                    <div style="font-size:11px;color:var(--gray-400)">${time}</div>
+                    <div style="font-size:13px;color:var(--gray-700)">${Utils.esc(date)}</div>
+                    <div style="font-size:11px;color:var(--gray-400)">${Utils.esc(time)}</div>
                   </td>
                   <td>
-                    <a href="report-details.html?id=${r.id}&from=pending" class="btn-view" onclick="sessionStorage.setItem(\'cw:lastListUrl\',window.location.href); sessionStorage.setItem(\'cw:backLabel\',\'Back to Pending Reports\'); sessionStorage.setItem(\'cw:backHref\',\'pending-reports.html\');">
+                    <a href="report-details.html?id=${encodeURIComponent(r.id)}&from=pending" class="btn-view" onclick="sessionStorage.setItem(\'cw:lastListUrl\',window.location.href); sessionStorage.setItem(\'cw:backLabel\',\'Back to Pending Reports\'); sessionStorage.setItem(\'cw:backHref\',\'pending-reports.html\');">
                       <span class="material-symbols-outlined">visibility</span> View
                     </a>
                   </td>

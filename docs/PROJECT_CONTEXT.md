@@ -123,8 +123,8 @@ Started by the command above; check with
 | Role | Login | Password |
 |---|---|---|
 | Citizen | phone `+639171234567` | PIN `123456` |
-| Super Admin | `admin@civilwatch.ph` | `Admin@2026!` |
-| CEO (test) | `ceo@civilwatch.ph` | `Ceo@2026!` |
+| Super Admin | `admin@civilwatch.ph` | `<your-admin-password>` |
+| CEO (test) | `ceo@civilwatch.ph` | `<your-ceo-password>` |
 
 **Roles are `super_admin`, `ceo`, `cenro` only.** There is no `staff` role —
 the prototype's "Staff" stat is therefore always 0 (pre-existing, out of scope).

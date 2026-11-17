@@ -21,7 +21,7 @@ cp .env.example .env && php artisan key:generate
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-Admin login: `admin@civilwatch.ph` / `Admin@2026!`
+Admin login: `admin@civilwatch.ph` / `<your-admin-password>`
 
 ## About Laravel
 

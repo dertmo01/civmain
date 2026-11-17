@@ -574,9 +574,9 @@
                         '<div class="rd-dot-wrap"><div class="rd-dot ' + (isCurrent ? 'current' : 'done') + '"></div>' +
                         (i < activityLog.length - 1 ? '<div class="rd-connector done"></div>' : '') +
                         '</div><div class="rd-step-content">' +
-                        '<div class="rd-step-title ' + (isCurrent ? 'current' : 'done') + '">' + (a.title || a.status) + '</div>' +
-                        '<div class="rd-step-date">' + fmtDate(a.timestamp || a.created_at) + '</div>' +
-                        (a.description ? '<div class="rd-step-note">' + a.description + '</div>' : '') +
+                        '<div class="rd-step-title ' + (isCurrent ? 'current' : 'done') + '">' + Utils.esc(a.title || a.status) + '</div>' +
+                        '<div class="rd-step-date">' + Utils.esc(fmtDate(a.timestamp || a.created_at)) + '</div>' +
+                        (a.description ? '<div class="rd-step-note">' + Utils.esc(a.description) + '</div>' : '') +
                         '</div></div>';
                 }).join('');
             } else {
@@ -592,7 +592,7 @@
                         (i < statusOrder.length - 1 ? '<div class="rd-connector ' + (done ? 'done' : '') + '"></div>' : '') +
                         '</div><div class="rd-step-content">' +
                         '<div class="rd-step-title ' + (done ? 'done' : current ? 'current' : '') + '">' + s + '</div>' +
-                        '<div class="rd-step-date">' + (done || current ? date : '—') + '</div>' +
+                        '<div class="rd-step-date">' + Utils.esc(done || current ? date : '—') + '</div>' +
                         '</div></div>';
                 }).join('');
             }
@@ -609,7 +609,7 @@
                 iconSize:[26,26], iconAnchor:[13,13]
             });
             detailMap.eachLayer(function(layer){ if (layer instanceof L.Marker) detailMap.removeLayer(layer); });
-            L.marker([lat, lng], { icon: pinIcon }).addTo(detailMap).bindPopup('<strong>'+concern+'</strong><br>'+barangay).openPopup();
+            L.marker([lat, lng], { icon: pinIcon }).addTo(detailMap).bindPopup('<strong>'+Utils.esc(concern)+'</strong><br>'+Utils.esc(barangay)).openPopup();
             setTimeout(function() { if (detailMap) detailMap.invalidateSize(); }, 150);
 
             var workflowActions = document.getElementById('workflowActions');

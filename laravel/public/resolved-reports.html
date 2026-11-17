@@ -330,31 +330,31 @@
                 var desc     = r.description || '';
 
                 var photoCell = photo
-                    ? '<img class="table-photo" src="' + photo + '" alt="' + concern
+                    ? '<img class="table-photo" src="' + Utils.safeUrl(photo) + '" alt="' + Utils.esc(concern)
                       + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'" />'
                       + '<div class="table-photo-placeholder" style="display:none">'
                       + '<span class="material-symbols-outlined">image</span></div>'
                     : '<div class="table-photo-placeholder"><span class="material-symbols-outlined">image</span></div>';
 
                 return '<tr>'
-                    + '<td><span class="ref-id">' + ref + '</span></td>'
+                    + '<td><span class="ref-id">' + Utils.esc(ref) + '</span></td>'
                     + '<td>' + photoCell + '</td>'
                     + '<td><div class="table-issue">'
-                    +   '<span class="table-issue-name">' + concern + '</span>'
-                    +   (desc ? '<span class="table-issue-desc">' + desc.substring(0,60) + (desc.length>60?'&hellip;':'') + '</span>' : '')
+                    +   '<span class="table-issue-name">' + Utils.esc(concern) + '</span>'
+                    +   (desc ? '<span class="table-issue-desc">' + Utils.esc(desc.substring(0,60)) + (desc.length>60?'&hellip;':'') + '</span>' : '')
                     + '</div></td>'
                     + '<td>' + Utils.categoryBadge(cat) + '</td>'
-                    + '<td>' + barangay + '</td>'
+                    + '<td>' + Utils.esc(barangay) + '</td>'
                     + '<td>'
-                    +   '<div style="font-size:13px;color:var(--gray-700)">' + fmtDate(resDate) + '</div>'
-                    +   '<div style="font-size:11px;color:var(--gray-400)">' + fmtTime(resDate) + '</div>'
+                    +   '<div style="font-size:13px;color:var(--gray-700)">' + Utils.esc(fmtDate(resDate)) + '</div>'
+                    +   '<div style="font-size:11px;color:var(--gray-400)">' + Utils.esc(fmtTime(resDate)) + '</div>'
                     + '</td>'
                     + '<td><div class="office-cell">'
                     +   '<span class="material-symbols-outlined">' + (isInfra ? 'business' : 'eco') + '</span>'
-                    +   office
+                    +   Utils.esc(office)
                     + '</div></td>'
                     + '<td>' + Utils.statusBadge('Resolved') + '</td>'
-                    + '<td><a href="report-details.html?id=' + r.id + '" class="btn-view">'
+                    + '<td><a href="report-details.html?id=' + encodeURIComponent(r.id) + '" class="btn-view">'
                     +   '<span class="material-symbols-outlined">visibility</span> View Details'
                     + '</a></td>'
                     + '</tr>';

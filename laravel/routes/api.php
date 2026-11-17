@@ -83,7 +83,7 @@ Route::prefix('mobile')->name('mobile.')->group(function () {
 // Exception: POST citizen-reports/{id}/status is deliberately NOT here — the
 // assigned office (CEO/CENRO) drives that transition, so it lives in the
 // auth-only group below where updateStatus() enforces office ownership.
-Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'superadmin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'staff', 'superadmin'])->group(function () {
 
     // Citizen reports management
     Route::get('citizen-reports/summary',      [AdminCitizenReportController::class, 'summary']);
@@ -115,10 +115,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'superadmin'
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
+// `staff` rejects any non-User token (see App\Http\Middleware\EnsureStaff).
+Route::middleware(['auth:sanctum', 'staff'])->group(function () {
 
     // Auth
-    Route::get('/user',    [AuthController::class, 'me']);
+    Route::get('/user',   [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Users (super_admin only) — creating or changing staff accounts is a

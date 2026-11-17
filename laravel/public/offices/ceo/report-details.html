@@ -807,7 +807,7 @@
         function statusBadgeHtml(status) {
             var bg = statusBg[status] || '#F3F4F6';
             var fg = statusColors[status] || '#6B7280';
-            return `<span style="display:inline-flex;align-items:center;padding:5px 14px;border-radius:var(--radius-full);font-size:13px;font-weight:700;background:${bg};color:${fg};">${status}</span>`;
+            return `<span style="display:inline-flex;align-items:center;padding:5px 14px;border-radius:var(--radius-full);font-size:13px;font-weight:700;background:${bg};color:${fg};">${Utils.esc(status)}</span>`;
         }
 
         // Collapse the canonical API status 'Assigned to Office' onto the
@@ -859,7 +859,7 @@
             document.getElementById('infoPriority').textContent = report.priority || '—';
             document.getElementById('infoLocation').textContent = report.barangay;
             document.getElementById('infoCoords').textContent = report.lat.toFixed(6) + ', ' + report.lng.toFixed(6);
-            document.getElementById('infoDate').innerHTML = report.date.replace(' · ', ' &bull; ');
+            document.getElementById('infoDate').innerHTML = Utils.esc(report.date).replace(' · ', ' &bull; ');
             document.getElementById('infoDesc').textContent = report.desc;
             document.getElementById('assignedDate').textContent = report.assigned;
             document.getElementById('modalRefLabel').textContent = ref;
@@ -895,7 +895,7 @@
             });
             L.marker([report.lat, report.lng], {
                 icon
-            }).addTo(map).bindPopup(report.issue).openPopup();
+            }).addTo(map).bindPopup(Utils.esc(report.issue)).openPopup();
         }
 
         var ref = Utils.getParam('ref') || Utils.getParam('id') || DEFAULT_REF;

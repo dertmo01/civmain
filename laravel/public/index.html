@@ -191,15 +191,6 @@
             </button>
         </form>
 
-        <div class="login-note">
-            <span class="material-symbols-outlined">info</span>
-            <div>
-                <strong>Demo credentials:</strong><br>
-                Super Admin: <code>admin@civilwatch.ph</code> / <code>Admin@2026!</code><br>
-                CEO: <code>ceo@civilwatch.ph</code> / <code>Ceo@2026!</code>
-            </div>
-        </div>
-
         <div class="login-footer">
             © 2026 CIVILWATCH. All rights reserved.<br>
             Digos City Government
@@ -284,12 +275,6 @@
                 btn.innerHTML = '<span class="material-symbols-outlined">login</span> Sign In';
             }
         }
-
-        // Auto-fill super admin credentials for demo convenience
-        window.addEventListener('load', () => {
-            document.getElementById('email').value = 'admin@civilwatch.ph';
-            document.getElementById('password').value = 'Admin@2026!';
-        });
     </script>
 
     <style>

@@ -37,6 +37,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const reports = @json($reports);
+const esc = s => String(s ?? '').replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
 
 const map = L.map('map').setView([6.7498, 125.3572], 13);
 
@@ -70,11 +71,11 @@ function makeMarker(r) {
     });
     const marker = L.marker([r.lat, r.lng], { icon });
     marker.bindPopup(`
-        <div class="popup-ref">${r.referenceNumber}</div>
-        <div style="font-size:12px;margin-top:2px">${r.concern}</div>
-        <div style="font-size:11px;color:#666">${r.barangay}</div>
-        <div class="popup-status" style="color:${color}">${r.status}</div>
-        <div style="margin-top:6px"><a href="/admin/citizen-reports/${r.id}" style="color:#1A5276;font-size:12px;font-weight:600">View Report →</a></div>
+        <div class="popup-ref">${esc(r.referenceNumber)}</div>
+        <div style="font-size:12px;margin-top:2px">${esc(r.concern)}</div>
+        <div style="font-size:11px;color:#666">${esc(r.barangay)}</div>
+        <div class="popup-status" style="color:${color}">${esc(r.status)}</div>
+        <div style="margin-top:6px"><a href="/admin/citizen-reports/${encodeURIComponent(r.id)}" style="color:#1A5276;font-size:12px;font-weight:600">View Report →</a></div>
     `);
     marker._reportData = r;
     return marker;

@@ -188,8 +188,8 @@ between them through GitHub; data does not.
 
 | Role | Email | Password |
 |---|---|---|
-| Super Admin | `admin@civilwatch.ph` | `Admin@2026!` |
-| CEO | `ceo@civilwatch.ph` | `Ceo@2026!` |
+| Super Admin | `admin@civilwatch.ph` | `<your-admin-password>` |
+| CEO | `ceo@civilwatch.ph` | `<your-ceo-password>` |
 
 Only **super_admin** can write. CEO/CENRO can read every admin page but all
 mutation endpoints return `403 Super administrator access is required.`

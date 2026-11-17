@@ -853,24 +853,24 @@
       <tr style="cursor:pointer" onclick="openPanel(${i})">
         <td>
           <div class="user-cell">
-            <div class="user-avatar-cell" style="background:${col}">${initials(u.name)}</div>
+            <div class="user-avatar-cell" style="background:${col}">${Utils.esc(initials(u.name))}</div>
             <div>
-              <div class="user-cell-name">${u.name}</div>
-              <div class="user-cell-email">${u.email}</div>
+              <div class="user-cell-name">${Utils.esc(u.name)}</div>
+              <div class="user-cell-email">${Utils.esc(u.email)}</div>
             </div>
           </div>
         </td>
-        <td style="font-size:13px;color:var(--gray-700)">${u.office}</td>
-        <td><span class="role-badge ${u.role === 'Administrator' ? 'admin' : 'staff'}">${u.role}</span></td>
+        <td style="font-size:13px;color:var(--gray-700)">${Utils.esc(u.office)}</td>
+        <td><span class="role-badge ${u.role === 'Administrator' ? 'admin' : 'staff'}">${Utils.esc(u.role)}</span></td>
         <td>
           <div class="status-dot-wrap">
             <div class="${u.status === 'Active' ? 'status-dot-green' : 'status-dot-red'}"></div>
-            <span style="font-size:13px;color:var(--gray-700)">${u.status}</span>
+            <span style="font-size:13px;color:var(--gray-700)">${Utils.esc(u.status)}</span>
           </div>
         </td>
         <td>
-          <div style="font-size:13px;color:var(--gray-700)">${lines[0]}</div>
-          ${lines[1] ? `<div style="font-size:11px;color:var(--gray-400)">${lines[1]}</div>` : ''}
+          <div style="font-size:13px;color:var(--gray-700)">${Utils.esc(lines[0])}</div>
+          ${lines[1] ? `<div style="font-size:11px;color:var(--gray-400)">${Utils.esc(lines[1])}</div>` : ''}
         </td>
         <td>
           <div class="user-actions">
@@ -919,27 +919,27 @@
             document.getElementById('panelContent').innerHTML = `
     <div class="panel-profile">
       <div class="panel-avatar" style="background:${col}">
-        ${initials(u.name)}
+        ${Utils.esc(initials(u.name))}
         <div class="panel-avatar-dot" style="background:${isActive ? 'var(--status-resolved)' : '#EF4444'}"></div>
       </div>
-      <div class="panel-name">${u.name}</div>
-      <span class="role-badge ${u.role === 'Administrator' ? 'admin' : 'staff'}">${u.role}</span>
-      <div class="panel-office">${u.office}</div>
+      <div class="panel-name">${Utils.esc(u.name)}</div>
+      <span class="role-badge ${u.role === 'Administrator' ? 'admin' : 'staff'}">${Utils.esc(u.role)}</span>
+      <div class="panel-office">${Utils.esc(u.office)}</div>
     </div>
 
     <div class="panel-section">
       <div class="panel-section-title">Account Information</div>
       <div class="panel-info-row">
         <span class="material-symbols-outlined">mail</span>
-        <span>${u.email}</span>
+        <span>${Utils.esc(u.email)}</span>
       </div>
       <div class="panel-info-row">
         <span class="material-symbols-outlined">call</span>
-        <span>${u.phone}</span>
+        <span>${Utils.esc(u.phone)}</span>
       </div>
       <div class="panel-info-row">
         <span class="material-symbols-outlined">badge</span>
-        <span>User ID: ${u.id}</span>
+        <span>User ID: ${Utils.esc(u.id)}</span>
       </div>
     </div>
 
@@ -947,7 +947,7 @@
       <div class="panel-section-title">Account Status</div>
       <span class="status-chip ${isActive ? 'active' : 'inactive'}">
         <div class="status-chip-dot" style="background:${isActive ? 'var(--status-resolved)' : '#EF4444'}"></div>
-        ${u.status}
+        ${Utils.esc(u.status)}
       </span>
       <div style="font-size:12px;color:var(--gray-500);margin-top:8px;">
         ${isActive ? 'This account is active and has full access.' : 'This account is inactive and cannot log in.'}
@@ -956,7 +956,7 @@
 
     <div class="panel-section">
       <div class="panel-section-title">Role &amp; Permissions</div>
-      <div style="font-size:13px;font-weight:600;color:var(--gray-800)">${u.role}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--gray-800)">${Utils.esc(u.role)}</div>
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">
         ${u.role === 'Administrator' ? 'Full access to all system features and settings.' : 'Limited access to assigned office reports only.'}
       </div>
@@ -968,8 +968,8 @@
       <div class="activity-log-row">
         <span class="material-symbols-outlined">schedule</span>
         <div>
-          <div style="font-size:12px;color:var(--gray-700);font-weight:500">${(u.lastLogin || '').replace('\n', ' ')}</div>
-          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">${u.activity}</div>
+          <div style="font-size:12px;color:var(--gray-700);font-weight:500">${Utils.esc((u.lastLogin || '').replace('\n', ' '))}</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">${Utils.esc(u.activity)}</div>
         </div>
       </div>
     </div>

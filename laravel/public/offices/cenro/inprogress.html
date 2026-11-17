@@ -590,32 +590,32 @@
                 return;
             }
             list.innerHTML = filtered.map(r => `
-    <div class="report-list-item" onclick="location.href='report-details.html?ref=${encodeURIComponent(r.ref)}'">
+    <div class="report-list-item" onclick="location.href=${Utils.jsArg('report-details.html?ref=' + encodeURIComponent(r.ref))}">
       <img class="report-list-thumb"
-           src="${r.imageUrl || getPhotoUrl(r.photo || r.issue)}"
+           src="${Utils.safeUrl(r.imageUrl || getPhotoUrl(r.photo || r.issue))}"
            onerror="this.style.background='var(--gray-200)';this.removeAttribute('src')"
-           alt="${r.issue}" />
+           alt="${Utils.esc(r.issue)}" />
       <div class="report-list-body">
-        <div class="report-list-title">${r.issue}</div>
+        <div class="report-list-title">${Utils.esc(r.issue)}</div>
         <div class="report-list-meta">
           <span class="material-symbols-outlined">location_on</span>
-          ${r.barangay}
+          ${Utils.esc(r.barangay)}
           &nbsp;&bull;&nbsp;
-          <span class="ref-link">${r.ref}</span>
+          <span class="ref-link">${Utils.esc(r.ref)}</span>
           &nbsp;&bull;&nbsp;
-          ${r.date} &bull; ${r.time}
+          ${Utils.esc(r.date)} &bull; ${Utils.esc(r.time)}
         </div>
         <div class="report-list-meta" style="margin-top:4px;">
           <span class="material-symbols-outlined">person</span>
-          Assigned by ${r.assignedBy}
+          Assigned by ${Utils.esc(r.assignedBy)}
         </div>
       </div>
       <div class="report-list-right">
         ${statusPillMap[r.status] || ''}
         <div class="report-list-started">
-          Started<strong>${r.dateAssigned || r.date}</strong>
+          Started<strong>${Utils.esc(r.dateAssigned || r.date)}</strong>
         </div>
-        <button class="btn-continue" onclick="event.stopPropagation();location.href='report-details.html?ref=${encodeURIComponent(r.ref)}'">
+        <button class="btn-continue" onclick="event.stopPropagation();location.href=${Utils.jsArg('report-details.html?ref=' + encodeURIComponent(r.ref))}">
           Continue <span class="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>

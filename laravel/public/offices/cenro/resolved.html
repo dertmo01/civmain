@@ -153,12 +153,12 @@ function render() {
   }
   tbody.innerHTML = filtered.length ? filtered.map(r => `
     <tr>
-      <td><img class="table-photo" src="${r.imageUrl || getPhotoUrl(r.photo || r.issue)}" onerror="this.style.background='var(--gray-200)';this.removeAttribute('src')" alt="${r.issue}" /></td>
-      <td><span class="ref-id">${r.ref}</span></td>
-      <td style="font-size:13px;font-weight:600;color:var(--gray-800);">${r.issue}</td>
-      <td style="font-size:13px;color:var(--gray-600);">${r.barangay}</td>
-      <td style="font-size:12px;color:var(--gray-500);">${r.dateAssigned || '—'}</td>
-      <td style="font-size:12px;color:var(--gray-500);">${r.dateResolved || '—'}</td>
+      <td><img class="table-photo" src="${Utils.safeUrl(r.imageUrl || getPhotoUrl(r.photo || r.issue))}" onerror="this.style.background='var(--gray-200)';this.removeAttribute('src')" alt="${Utils.esc(r.issue)}" /></td>
+      <td><span class="ref-id">${Utils.esc(r.ref)}</span></td>
+      <td style="font-size:13px;font-weight:600;color:var(--gray-800);">${Utils.esc(r.issue)}</td>
+      <td style="font-size:13px;color:var(--gray-600);">${Utils.esc(r.barangay)}</td>
+      <td style="font-size:12px;color:var(--gray-500);">${Utils.esc(r.dateAssigned || '—')}</td>
+      <td style="font-size:12px;color:var(--gray-500);">${Utils.esc(r.dateResolved || '—')}</td>
       <td><span class="resolved-badge"><span class="material-symbols-outlined" style="font-size:13px;">check_circle</span>Resolved</span></td>
     </tr>
   `).join('') : `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray-400);">No resolved reports found.</td></tr>`;

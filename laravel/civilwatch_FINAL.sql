@@ -15,10 +15,13 @@
 --   5. Click "Go"
 --   6. Done. The file creates the database for you.
 --
--- DEFAULT LOGIN CREDENTIALS
---   Super Admin :  admin@civilwatch.ph  /  Admin@2026!
---   CEO         :  ceo@civilwatch.ph    /  Ceo@2026!
---   Citizen     :  +639171234567        /  PIN 123456   (change this)
+-- DEFAULT ACCOUNTS — CHANGE THEIR PASSWORDS IMMEDIATELY AFTER IMPORT
+--   Super Admin :  admin@civilwatch.ph
+--   CEO         :  ceo@civilwatch.ph
+--   Citizen     :  +639171234567
+--   The seeded passwords/PIN were published in earlier versions of this
+--   file, so treat them as public. Never import this dump on a server that
+--   is reachable by others without rotating them first.
 --
 -- ALTERNATIVE (no SQL import)
 --   composer setup       -> copies .env, key:generate, migrate --seed,

@@ -216,7 +216,7 @@ resources/views/admin/
 Default admin credentials (change after first login):
 ```
 Email:    admin@civilwatch.ph
-Password: Admin@2026!
+Password: <your-admin-password>
 ```
 
 ---

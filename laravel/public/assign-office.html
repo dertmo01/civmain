@@ -1979,9 +1979,9 @@
         function renderStatCards(total, infra, env) {
             var container = document.getElementById('statsContainer');
             container.innerHTML =
-                '<div class="ao-stat"><div class="ao-stat-icon waiting"><span class="material-symbols-outlined">pending_actions</span></div><div><div class="ao-stat-num">' + total + '</div><div class="ao-stat-label">Waiting for Assignment</div></div></div>' +
-                '<div class="ao-stat"><div class="ao-stat-icon infra"><span class="material-symbols-outlined">construction</span></div><div><div class="ao-stat-num">' + infra + '</div><div class="ao-stat-label">Infrastructure</div></div></div>' +
-                '<div class="ao-stat"><div class="ao-stat-icon env"><span class="material-symbols-outlined">eco</span></div><div><div class="ao-stat-num">' + env + '</div><div class="ao-stat-label">Environmental</div></div></div>';
+                '<div class="ao-stat"><div class="ao-stat-icon waiting"><span class="material-symbols-outlined">pending_actions</span></div><div><div class="ao-stat-num">' + Utils.esc(total) + '</div><div class="ao-stat-label">Waiting for Assignment</div></div></div>' +
+                '<div class="ao-stat"><div class="ao-stat-icon infra"><span class="material-symbols-outlined">construction</span></div><div><div class="ao-stat-num">' + Utils.esc(infra) + '</div><div class="ao-stat-label">Infrastructure</div></div></div>' +
+                '<div class="ao-stat"><div class="ao-stat-icon env"><span class="material-symbols-outlined">eco</span></div><div><div class="ao-stat-num">' + Utils.esc(env) + '</div><div class="ao-stat-label">Environmental</div></div></div>';
         }
 
         function loadStats() {
@@ -2106,22 +2106,22 @@
 
                 var catBadge = Utils.categoryBadge(cat);
                 var imgHtml = photo ?
-                    '<img class="ao-thumb" src="' + photo + '" alt="' + concern + '" onerror="this.parentNode.innerHTML=\'<div class=ao-thumb style=background:var(--gray-100);display:flex;align-items:center;justify-content:center><span class=material-symbols-outlined style=color:var(--gray-300)>image</span></div>\'" />' :
+                    '<img class="ao-thumb" src="' + Utils.safeUrl(photo) + '" alt="' + Utils.esc(concern) + '" onerror="this.parentNode.innerHTML=\'<div class=ao-thumb style=background:var(--gray-100);display:flex;align-items:center;justify-content:center><span class=material-symbols-outlined style=color:var(--gray-300)>image</span></div>\'" />' :
                     '<div class="ao-thumb" style="background:var(--gray-100);display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="color:var(--gray-300);">image</span></div>';
 
                 return '<div class="ao-report-row">' +
                     imgHtml +
                     '<div>' +
-                    '<div class="ao-ref">' + ref + '</div>' +
-                    '<div class="ao-rtitle">' + concern + '</div>' +
-                    '<div class="ao-loc"><span class="material-symbols-outlined">location_on</span>' + barangay + ', Digos City</div>' +
+                    '<div class="ao-ref">' + Utils.esc(ref) + '</div>' +
+                    '<div class="ao-rtitle">' + Utils.esc(concern) + '</div>' +
+                    '<div class="ao-loc"><span class="material-symbols-outlined">location_on</span>' + Utils.esc(barangay) + ', Digos City</div>' +
                     '</div>' +
                     '<div>' + catBadge + '</div>' +
                     '<div>' + Utils.statusBadge(status) + '</div>' +
-                    '<div class="ao-date">' + date + '</div>' +
+                    '<div class="ao-date">' + Utils.esc(date) + '</div>' +
                     '<div class="ao-actions">' +
-                    '<button class="btn-view" onclick="openView(' + r.id + ')">View Report</button>' +
-                    '<button class="btn-assign-sm" onclick="openAssign(' + r.id + ')">Assign Office</button>' +
+                    '<button class="btn-view" onclick="openView(' + Utils.esc(JSON.stringify(r.id)) + ')">View Report</button>' +
+                    '<button class="btn-assign-sm" onclick="openAssign(' + Utils.esc(JSON.stringify(r.id)) + ')">Assign Office</button>' +
                     '</div>' +
                     '</div>';
             });
@@ -2176,7 +2176,7 @@
                     var ref = r.referenceNumber || r.reference_number || String(r.id);
 
                     var imgHtml = photo ?
-                        '<img class="vm-photo" src="' + photo + '" alt="' + concern + '" onerror="this.style.display=\'none\'" />' :
+                        '<img class="vm-photo" src="' + Utils.safeUrl(photo) + '" alt="' + Utils.esc(concern) + '" onerror="this.style.display=\'none\'" />' :
                         '<div class="vm-photo" style="background:var(--gray-100);display:flex;align-items:center;justify-content:center;">' +
                         '<span class="material-symbols-outlined" style="font-size:40px;color:var(--gray-300);">image</span></div>';
 
@@ -2187,8 +2187,8 @@
                             return '<div class="vm-tl-row">' +
                                 '<div class="vm-tl-dot' + (a.status === 'Resolved' ? ' done' : '') + '"></div>' +
                                 '<div>' +
-                                '<div class="vm-tl-note">' + (a.title || a.status) + '</div>' +
-                                '<div class="vm-tl-time">' + fmtDate(a.timestamp || a.created_at) + '</div>' +
+                                '<div class="vm-tl-note">' + Utils.esc(a.title || a.status) + '</div>' +
+                                '<div class="vm-tl-time">' + Utils.esc(fmtDate(a.timestamp || a.created_at)) + '</div>' +
                                 '</div></div>';
                         });
                         tlHtml = '<div class="vm-tl"><div class="vm-tl-h">Status Timeline</div>' + rows.join('') + '</div>';
@@ -2198,15 +2198,15 @@
                         '<div>' + imgHtml + '</div>' +
                         '<div>' +
                         '<div class="vm-badges">' + Utils.categoryBadge(cat) + ' ' + Utils.statusBadge(r.status) + '</div>' +
-                        '<div class="vm-title">' + concern + '</div>' +
-                        '<div class="vm-loc"><span class="material-symbols-outlined" style="font-size:14px">location_on</span>' + (r.barangay || '-') + ', Digos City</div>' +
+                        '<div class="vm-title">' + Utils.esc(concern) + '</div>' +
+                        '<div class="vm-loc"><span class="material-symbols-outlined" style="font-size:14px">location_on</span>' + Utils.esc(r.barangay || '-') + ', Digos City</div>' +
                         '<div class="vm-dlabel">Description</div>' +
-                        '<div class="vm-desc">' + (r.description || '-') + '</div>' +
+                        '<div class="vm-desc">' + Utils.esc(r.description || '-') + '</div>' +
                         '<div class="vm-meta">' +
-                        '<div class="vm-meta-item"><strong>' + ref + '</strong>Reference No.</div>' +
-                        '<div class="vm-meta-item"><strong>' + name + '</strong>Submitted By</div>' +
-                        '<div class="vm-meta-item"><strong>' + phone + '</strong>Contact</div>' +
-                        '<div class="vm-meta-item"><strong>' + (r.submittedAt || r.created_at || '') + '</strong>Date Submitted</div>' +
+                        '<div class="vm-meta-item"><strong>' + Utils.esc(ref) + '</strong>Reference No.</div>' +
+                        '<div class="vm-meta-item"><strong>' + Utils.esc(name) + '</strong>Submitted By</div>' +
+                        '<div class="vm-meta-item"><strong>' + Utils.esc(phone) + '</strong>Contact</div>' +
+                        '<div class="vm-meta-item"><strong>' + Utils.esc(r.submittedAt || r.created_at || '') + '</strong>Date Submitted</div>' +
                         '</div>' +
                         tlHtml +
                         '</div>';
@@ -2340,16 +2340,16 @@
                 var iconClass = getOfficeIconClass(office);
                 var icon = getOfficeIcon(office);
 
-                return '<div class="af-office-card' + (isRec ? ' sel' : '') + '" data-office="' + office.abbreviation + '" onclick="selectOfficeCard(this, \'' + office.abbreviation + '\')">' +
+                return '<div class="af-office-card' + (isRec ? ' sel' : '') + '" data-office="' + Utils.esc(office.abbreviation) + '" onclick="selectOfficeCard(this, ' + Utils.jsArg(office.abbreviation) + ')">' +
                     '<div class="af-office-icon' + (iconClass ? ' ' + iconClass : '') + '">' +
                     '<span class="material-symbols-outlined">' + icon + '</span>' +
                     '</div>' +
                     '<div class="af-office-info">' +
                     '<div class="af-office-name-row">' +
-                    '<span class="af-office-name">' + office.name + '</span>' +
+                    '<span class="af-office-name">' + Utils.esc(office.name) + '</span>' +
                     (isRec ? '<span class="af-rec-badge">Recommended</span>' : '') +
                     '</div>' +
-                    '<div class="af-office-desc">' + (office.description || 'No description available') + '</div>' +
+                    '<div class="af-office-desc">' + Utils.esc(office.description || 'No description available') + '</div>' +
                     '</div>' +
                     '<div class="af-office-check"><span class="material-symbols-outlined">check</span></div>' +
                     '</div>';
@@ -2556,7 +2556,7 @@
                         return c === 'environment' || c === 'environmental';
                     }).length;
                 }
-                container.innerHTML = '<div class="ao-stat"><div class="ao-stat-icon waiting"><span class="material-symbols-outlined">pending_actions</span></div><div><div class="ao-stat-num">' + pending + '</div><div class="ao-stat-label">Waiting for Assignment</div></div></div><div class="ao-stat"><div class="ao-stat-icon infra"><span class="material-symbols-outlined">construction</span></div><div><div class="ao-stat-num">' + infraCount + '</div><div class="ao-stat-label">Infrastructure</div></div></div><div class="ao-stat"><div class="ao-stat-icon env"><span class="material-symbols-outlined">eco</span></div><div><div class="ao-stat-num">' + envCount + '</div><div class="ao-stat-label">Environmental</div></div></div>';
+                container.innerHTML = '<div class="ao-stat"><div class="ao-stat-icon waiting"><span class="material-symbols-outlined">pending_actions</span></div><div><div class="ao-stat-num">' + Utils.esc(pending) + '</div><div class="ao-stat-label">Waiting for Assignment</div></div></div><div class="ao-stat"><div class="ao-stat-icon infra"><span class="material-symbols-outlined">construction</span></div><div><div class="ao-stat-num">' + infraCount + '</div><div class="ao-stat-label">Infrastructure</div></div></div><div class="ao-stat"><div class="ao-stat-icon env"><span class="material-symbols-outlined">eco</span></div><div><div class="ao-stat-num">' + envCount + '</div><div class="ao-stat-label">Environmental</div></div></div>';
             }).catch(function() {
                 container.innerHTML = '<div class="ao-stat"><div class="ao-stat-icon waiting"><span class="material-symbols-outlined">pending_actions</span></div><div><div class="ao-stat-num">0</div><div class="ao-stat-label">Waiting for Assignment</div></div></div><div class="ao-stat"><div class="ao-stat-icon infra"><span class="material-symbols-outlined">construction</span></div><div><div class="ao-stat-num">0</div><div class="ao-stat-label">Infrastructure</div></div></div><div class="ao-stat"><div class="ao-stat-icon env"><span class="material-symbols-outlined">eco</span></div><div><div class="ao-stat-num">0</div><div class="ao-stat-label">Environmental</div></div></div>';
             });

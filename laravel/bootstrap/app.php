@@ -29,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'superadmin' => \App\Http\Middleware\EnsureSuperAdmin::class,
+            'staff'      => \App\Http\Middleware\EnsureStaff::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [

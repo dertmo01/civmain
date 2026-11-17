@@ -3,6 +3,16 @@
 // Handles: Sidebar, Navbar, Notifications Panel, Dark Mode
 // ============================================================
 
+// ── HTML escaping ─────────────────────────────────────────────
+// Same rules as Utils.esc (public/js/utils.js), kept local so the shell
+// never depends on script order. Names, titles and notification text come
+// from the API/localStorage and must never be inserted as raw HTML.
+function appEsc(value) {
+    return String(value ?? '').replace(/[&<>"'`]/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;',
+    }[c]));
+}
+
 // ── API Helper ────────────────────────────────────────────────
 const Api = {
     token() {
@@ -351,10 +361,10 @@ const App = {
       </nav>
       <div class="sidebar-footer">
         <div class="sidebar-user">
-          <div class="sidebar-user-avatar">${this.getInitials()}</div>
+          <div class="sidebar-user-avatar">${appEsc(this.getInitials())}</div>
           <div class="sidebar-user-info">
-            <div class="sidebar-user-name">${this.getName()}</div>
-            <div class="sidebar-user-role">${this.getTitle()}</div>
+            <div class="sidebar-user-name">${appEsc(this.getName())}</div>
+            <div class="sidebar-user-role">${appEsc(this.getTitle())}</div>
           </div>
         </div>
         <div class="sidebar-user-status" style="padding:2px 12px 8px;margin-left:2px;">
@@ -400,10 +410,10 @@ const App = {
           <span class="notif-badge" id="notifBadge"></span>
         </button>
         <div class="navbar-profile" id="profileBtn">
-          <div class="navbar-avatar">${this.getInitials()}</div>
+          <div class="navbar-avatar">${appEsc(this.getInitials())}</div>
           <div class="navbar-profile-info">
-            <span class="navbar-profile-name">${this.getName()}</span>
-            <span class="navbar-profile-role">${this.getTitle()}</span>
+            <span class="navbar-profile-name">${appEsc(this.getName())}</span>
+            <span class="navbar-profile-role">${appEsc(this.getTitle())}</span>
           </div>
           <span class="material-symbols-outlined">expand_more</span>
         </div>
@@ -602,16 +612,16 @@ const App = {
                 const mins = Math.floor((Date.now() - new Date(n.created_at)) / 60000);
                 const time = (typeof Utils !== 'undefined' && Utils.relativeTime) ?
                     Utils.relativeTime(mins) : n.created_at;
-                const label = n.type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                const label = String(n.type || 'system').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
                 return `
-          <div class="notif-item ${n.is_read ? '' : 'unread'}" data-id="${n.id}">
+          <div class="notif-item ${n.is_read ? '' : 'unread'}" data-id="${appEsc(n.id)}">
             <div class="notif-icon ${im.cls}">
               <span class="material-symbols-outlined">${im.icon}</span>
             </div>
             <div class="notif-content">
-              <div class="notif-title">${label}</div>
-              <div class="notif-desc">${n.message}</div>
-              <div class="notif-time">${time}</div>
+              <div class="notif-title">${appEsc(label)}</div>
+              <div class="notif-desc">${appEsc(n.message)}</div>
+              <div class="notif-time">${appEsc(time)}</div>
             </div>
             ${n.is_read ? '' : '<div class="unread-dot"></div>'}
           </div>`;

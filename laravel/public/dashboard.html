@@ -567,9 +567,9 @@
                     icon: icon
                 })
                 .addTo(dashMap)
-                .bindPopup('<div style="font-size:13px;font-weight:600;color:#111">' + (p.title || '—') + '</div>' +
-                    '<div style="font-size:11px;color:#6B7280;margin-top:3px;">' + (p.status || '') + '</div>' +
-                    '<div style="font-size:11px;color:#6B7280;">' + (p.barangay || '') + '</div>');
+                .bindPopup('<div style="font-size:13px;font-weight:600;color:#111">' + Utils.esc(p.title || '—') + '</div>' +
+                    '<div style="font-size:11px;color:#6B7280;margin-top:3px;">' + Utils.esc(p.status || '') + '</div>' +
+                    '<div style="font-size:11px;color:#6B7280;">' + Utils.esc(p.barangay || '') + '</div>');
         }
 
         // ── Load stat cards ───────────────────────────────────────
@@ -611,15 +611,15 @@
                     var cat = normCategory(r.category);
                     var st = normStatus(r.status);
                     var dt = fmtDate(r.created_at || r.submittedAt);
-                    return '<tr style="cursor:pointer" onclick="location.href=\'report-details.html?id=' + r.id + '\'">' +
-                        '<td><span class="ref-id">' + ref + '</span></td>' +
+                    return '<tr style="cursor:pointer" onclick="location.href=' + Utils.jsArg('report-details.html?id=' + encodeURIComponent(r.id)) + '">' +
+                        '<td><span class="ref-id">' + Utils.esc(ref) + '</span></td>' +
                         '<td><div class="table-issue">' +
-                        '<span class="table-issue-name">' + name + '</span>' +
+                        '<span class="table-issue-name">' + Utils.esc(name) + '</span>' +
                         '<span>' + Utils.categoryBadge(cat) + '</span>' +
                         '</div></td>' +
-                        '<td>' + (r.barangay || '—') + '</td>' +
+                        '<td>' + Utils.esc(r.barangay || '—') + '</td>' +
                         '<td>' + Utils.statusBadge(st) + '</td>' +
-                        '<td style="color:var(--gray-500);font-size:12px;">' + dt + '</td>' +
+                        '<td style="color:var(--gray-500);font-size:12px;">' + Utils.esc(dt) + '</td>' +
                         '</tr>';
                 }).join('');
             } catch (e) {
@@ -686,10 +686,10 @@
                         '<span class="material-symbols-outlined">' + im.icon + '</span>' +
                         '</div>' +
                         '<div class="activity-text">' +
-                        '<div class="activity-main">' + im.verb + ': <strong>' + nm + '</strong></div>' +
-                        '<div class="activity-sub">' + (r.barangay || '') + ' &middot; ' + ref + '</div>' +
+                        '<div class="activity-main">' + im.verb + ': <strong>' + Utils.esc(nm) + '</strong></div>' +
+                        '<div class="activity-sub">' + Utils.esc(r.barangay || '') + ' &middot; ' + Utils.esc(ref) + '</div>' +
                         '</div>' +
-                        '<div class="activity-time">' + t + '</div>' +
+                        '<div class="activity-time">' + Utils.esc(t) + '</div>' +
                         '</div>';
                 }).join('');
             } catch (e) {
@@ -735,7 +735,7 @@
                         <div class="stat-card" onclick="location.href='pending-reports.html'" style="cursor:pointer;">
                             <div class="stat-icon pending"><span class="material-symbols-outlined">schedule</span></div>
                             <div class="stat-info">
-                                <div class="stat-value">${pending}</div>
+                                <div class="stat-value">${Utils.esc(pending)}</div>
                                 <div class="stat-label">Pending Validation</div>
                                 <div class="stat-action">View pending reports <span class="material-symbols-outlined">arrow_forward</span></div>
                             </div>
@@ -743,7 +743,7 @@
                         <div class="stat-card" onclick="location.href='monitoring.html'" style="cursor:pointer;">
                             <div class="stat-icon assigned"><span class="material-symbols-outlined">assignment_ind</span></div>
                             <div class="stat-info">
-                                <div class="stat-value">${assigned}</div>
+                                <div class="stat-value">${Utils.esc(assigned)}</div>
                                 <div class="stat-label">Assigned to Office</div>
                                 <div class="stat-action">View assigned reports <span class="material-symbols-outlined">arrow_forward</span></div>
                             </div>
@@ -751,7 +751,7 @@
                         <div class="stat-card" onclick="location.href='monitoring.html'" style="cursor:pointer;">
                             <div class="stat-icon progress"><span class="material-symbols-outlined">autorenew</span></div>
                             <div class="stat-info">
-                                <div class="stat-value">${inProgress}</div>
+                                <div class="stat-value">${Utils.esc(inProgress)}</div>
                                 <div class="stat-label">In Progress</div>
                                 <div class="stat-action">View in progress reports <span class="material-symbols-outlined">arrow_forward</span></div>
                             </div>
@@ -759,7 +759,7 @@
                         <div class="stat-card" onclick="location.href='resolved-reports.html'" style="cursor:pointer;">
                             <div class="stat-icon resolved"><span class="material-symbols-outlined">check_circle</span></div>
                             <div class="stat-info">
-                                <div class="stat-value">${resolved}</div>
+                                <div class="stat-value">${Utils.esc(resolved)}</div>
                                 <div class="stat-label">Resolved</div>
                                 <div class="stat-action">View resolved reports <span class="material-symbols-outlined">arrow_forward</span></div>
                             </div>
@@ -767,7 +767,7 @@
                         <div class="stat-card" style="cursor:pointer;">
                             <div class="stat-icon total"><span class="material-symbols-outlined">description</span></div>
                             <div class="stat-info">
-                                <div class="stat-value">${total}</div>
+                                <div class="stat-value">${Utils.esc(total)}</div>
                                 <div class="stat-label">Total Reports</div>
                                 <div class="stat-action">All time reports <span class="material-symbols-outlined">arrow_forward</span></div>
                             </div>

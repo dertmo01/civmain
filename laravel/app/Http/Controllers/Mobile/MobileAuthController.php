@@ -123,22 +123,26 @@ class MobileAuthController extends Controller
             $data['sms_error'] = $sms['error'];
         }
 
-        // Debug keeps the dev autofill (the Flutter OTP screen uses it only
-        // when present); production responses never echo the code.
-        if (config('app.debug')) {
+        // Dev autofill (the Flutter OTP screen uses it only when present).
+        // Echoing the code hands account takeover to whoever calls send-otp,
+        // so it requires BOTH a local environment AND debug — APP_DEBUG alone
+        // is not enough, because a server deployed from .env.example has it on.
+        $echoOtp = app()->environment('local') && config('app.debug');
+
+        if ($echoOtp) {
             $data['otp'] = $code;
         }
 
-        // No key + no debug = the user could never receive the code: fail honestly.
-        if (! $provider->configured() && ! config('app.debug')) {
+        // No key + no echo = the user could never receive the code: fail honestly.
+        if (! $provider->configured() && ! $echoOtp) {
             return response()->json([
                 'success' => false,
                 'message' => 'SMS service is not configured (UNISMS_SECRET_KEY missing).',
             ], 503);
         }
 
-        // Sending was attempted and failed while the debug echo is off: don't fake success.
-        if ($sms && ! $sms['ok'] && ! config('app.debug')) {
+        // Sending was attempted and failed while the echo is off: don't fake success.
+        if ($sms && ! $sms['ok'] && ! $echoOtp) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to send the verification SMS. Please try again.',

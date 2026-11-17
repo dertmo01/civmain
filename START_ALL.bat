@@ -96,7 +96,7 @@ echo ============================================================
 echo    Web Admin  : %BACKEND_URL%
 echo    phpMyAdmin : http://localhost/phpmyadmin/
 echo    Flutter    : http://localhost:%FLUTTER_PORT%  (started below)
-echo    Logins     : admin@civilwatch.ph / Admin@2026!
+echo    Logins     : admin@civilwatch.ph (password set at seed/import time)
 echo    Demo citizen: +639171234567 / PIN 123456
 echo ============================================================
 echo.

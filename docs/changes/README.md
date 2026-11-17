@@ -85,3 +85,4 @@ automatically after each change.
 | 071 | 2026-10-21 | `d53f83f` | [Reset testing needed a real SMS in the app - added a debug-only Mock / Live switch](2026-10-21-071-in-app-mock-live-reset.md) |
 | 072 | 2026-10-21 | `ea059a2` | [Mock testing still needed SMS - registration and reset now skip OTP in debug](2026-10-21-072-mock-skips-otp.md) |
 | 075 | 2026-11-17 | `(uncommitted)` | [Dashboard charts reverted - dashboard back to stat cards only (undoes 073 and 074)](2026-11-17-075-dashboard-charts-reverted.md) |
+| 076 | 2026-11-17 | `(see git log)` | [Critical security fixes - citizen tokens on staff API, stored XSS, published admin password, OTP echo](2026-11-17-076-critical-security-fixes.md) |

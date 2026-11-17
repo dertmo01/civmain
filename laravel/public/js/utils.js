@@ -4,6 +4,46 @@
 
 const Utils = {
 
+    // ── Output escaping (XSS) ─────────────────────────────────────────
+    // Every value that comes from the API, the URL or localStorage — report
+    // concern/description, citizen name/phone/address, barangay, notification
+    // text, office names, notes — MUST pass through one of these before it is
+    // put into innerHTML, insertAdjacentHTML, a template string that becomes
+    // HTML, or a Leaflet bindPopup/bindTooltip string. Citizens control most
+    // of that text, and the panel holds a staff bearer token in localStorage.
+
+    // HTML text and quoted attribute values.
+    esc(value) {
+        return String(value ?? '').replace(/[&<>"'`]/g, c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '`': '&#96;',
+        }[c]));
+    },
+
+    // A JS string literal for use INSIDE an inline handler attribute, e.g.
+    //   onclick="openReport(${Utils.jsArg(r.ref)})"
+    // JSON.stringify makes a valid JS string; esc() then stops the browser's
+    // HTML-attribute decoding from turning &#39; back into a quote.
+    jsArg(value) {
+        return Utils.esc(JSON.stringify(String(value ?? '')));
+    },
+
+    // Escaped URL for src/href. Allows http(s)://, data:image/*, and relative
+    // paths (e.g. /storage/report-photos/x.jpg). Anything else — javascript:,
+    // data:text/html, protocol-relative //host — becomes ''.
+    safeUrl(value) {
+        const s = String(value ?? '').trim();
+        if (!s) return '';
+        if (/^https?:\/\//i.test(s)) return Utils.esc(s);
+        if (/^data:image\/(png|jpe?g|gif|webp);/i.test(s)) return Utils.esc(s);
+        if (/^[a-z][a-z0-9+.-]*:/i.test(s) || s.startsWith('//') || s.startsWith('\\')) return '';
+        return Utils.esc(s);
+    },
+
     // Format date string
     formatDate(dateStr) {
         return dateStr || '—';
@@ -71,7 +111,7 @@ const Utils = {
             icon: 'help',
             label: status
         };
-        return `<span class="badge ${s.cls}"><span class="material-symbols-outlined">${s.icon}</span>${s.label}</span>`;
+        return `<span class="badge ${s.cls}"><span class="material-symbols-outlined">${s.icon}</span>${Utils.esc(s.label)}</span>`;
     },
 
     // Get category badge HTML — canonical API value 'Environment' displays as
@@ -104,7 +144,7 @@ const Utils = {
             icon: 'help',
             label: category
         };
-        return `<span class="badge ${b.cls}"><span class="material-symbols-outlined">${b.icon}</span>${b.label}</span>`;
+        return `<span class="badge ${b.cls}"><span class="material-symbols-outlined">${b.icon}</span>${Utils.esc(b.label)}</span>`;
     },
 
     // Placeholder image for broken/missing photos
@@ -127,7 +167,8 @@ const Utils = {
         };
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px">${icons[type] || 'info'}</span>${message}`;
+        // message is plain text (it often carries server/API messages).
+        toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px">${icons[type] || 'info'}</span>${Utils.esc(message)}`;
         container.appendChild(toast);
         setTimeout(() => {
             toast.style.animation = 'none';
@@ -254,10 +295,13 @@ const Utils = {
     },
 
     // Highlight search term
+    // Returns HTML: both the text and the query are escaped first.
     highlight(text, query) {
-        if (!query) return text;
-        const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        return text.replace(re, '<mark style="background:#FEF9C3;border-radius:2px">$1</mark>');
+        const safe = Utils.esc(text);
+        if (!query) return safe;
+        const q = Utils.esc(query);
+        const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return safe.replace(re, '<mark style="background:#FEF9C3;border-radius:2px">$1</mark>');
     }
 };
 
